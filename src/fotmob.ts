@@ -10,6 +10,7 @@ import {
 } from "./types/match-details";
 import { Convert as ConvertMatches, type Matches } from "./types/matches";
 import { Convert as ConvertPlayer, type Player } from "./types/player";
+import { Convert as ConvertSuggestion, Suggestion } from "./types/suggest";
 import { Convert as ConvertTeam, type Team } from "./types/team";
 import {
   Convert as ConvertTeamSeasonStats,
@@ -19,7 +20,7 @@ import { Convert as ConvertTransfers, type Transfers } from "./types/transfers";
 import { Convert as ConvertWorldNews, WorldNews } from "./types/world-news";
 
 const baseUrl = "https://www.fotmob.com/api/";
-
+const searchUrl = "https://apigw.fotmob.com/searchapi/";
 export default class Fotmob {
   matchesUrl: string;
   leaguesUrl: string;
@@ -49,6 +50,7 @@ export default class Fotmob {
     this.searchUrl = `${baseUrl}searchapi/`;
     this.transfersUrl = `${baseUrl}transfers?`;
     this.worldNewsUrl = `${baseUrl}worldnews?`;
+    this.searchUrl = `${searchUrl}suggest`;
   }
 
   checkDate(date: string) {
@@ -163,6 +165,14 @@ export default class Fotmob {
     return await this.safeTypeCastFetch<T>(
       url,
       (data) => JSON.parse(data) as T,
+    );
+  }
+
+  async search(query: string, lang = "en") {
+    const url = `${this.searchUrl}?term=${query}&lang=${lang}`;
+    return await this.safeTypeCastFetch<Suggestion>(
+      url,
+      ConvertSuggestion.toSuggest,
     );
   }
 }

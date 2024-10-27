@@ -1,17 +1,18 @@
-import matchData from "./data/matchesByDate.json";
-import leagueData from "./data/league.json";
-import teamData from "./data/team.json";
-import playerData from "./data/player.json";
-import matchDetailData from "./data/matchDetails.json";
+import { describe, expect, it, vi } from 'vitest';
 import Fotmob from '../src/fotmob';
+import leagueData from "./data/league.json";
+import matchDetailData from "./data/matchDetails.json";
+import matchData from "./data/matchesByDate.json";
+import playerData from "./data/player.json";
+import teamData from "./data/team.json";
 
 let fot = new Fotmob();
 
-fot.getMatchesByDate = jest.fn().mockReturnValue(matchData);
-fot.getLeague = jest.fn().mockReturnValue(leagueData);
-fot.getTeam = jest.fn().mockReturnValue(teamData);
-fot.getPlayer = jest.fn().mockReturnValue(playerData);
-fot.getMatchDetails = jest.fn().mockReturnValue(matchDetailData);
+fot.getMatchesByDate = vi.fn().mockReturnValue(matchData);
+fot.getLeague = vi.fn().mockReturnValue(leagueData);
+fot.getTeam = vi.fn().mockReturnValue(teamData);
+fot.getPlayer = vi.fn().mockReturnValue(playerData);
+fot.getMatchDetails = vi.fn().mockReturnValue(matchDetailData);
 
 
 describe("getMatchesByDate", () => {
